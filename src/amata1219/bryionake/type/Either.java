@@ -1,6 +1,8 @@
 package amata1219.bryionake.type;
 
-public class Either<L, R> {
+import java.util.function.Function;
+
+public abstract class Either<L, R> {
 
     public static <L, R> Either<L, R> success(R value) {
         return new Success<>(value);
@@ -10,6 +12,8 @@ public class Either<L, R> {
         return new Failure<>(error);
     }
 
+    public abstract <T> Either<L, T> flatMap(Function<R, Either<L, T>> mapper);
+
     public static class Success<L, R> extends Either<L, R> {
 
         public final R value;
@@ -18,6 +22,10 @@ public class Either<L, R> {
             this.value = value;
         }
 
+        @Override
+        public <T> Either<L, T> flatMap(Function<R, Either<L, T>> mapper) {
+            return mapper.apply(value);
+        }
     }
 
     public static class Failure<L, R> extends Either<L, R> {
@@ -28,6 +36,10 @@ public class Either<L, R> {
             this.error = error;
         }
 
+        @Override
+        public <T> Either<L, T> flatMap(Function<R, Either<L, T>> mapper) {
+            return (Either<L, T>) this;
+        }
     }
 
 }
