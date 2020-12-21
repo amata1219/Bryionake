@@ -1,12 +1,13 @@
-package amata1219.bryionake.dsl.parser;
+package amata1219.bryionake.constant;
 
+import amata1219.bryionake.constant.Constants;
+import amata1219.bryionake.dsl.parser.FailableParser;
 import amata1219.bryionake.type.Either;
 
 import java.util.function.Function;
 import java.util.function.Supplier;
 
 import static amata1219.bryionake.type.Either.*;
-import static org.bukkit.ChatColor.*;
 
 public class Parsers {
 
@@ -19,7 +20,7 @@ public class Parsers {
             try {
                 return success(parser.apply(arg));
             } catch (Exception e) {
-                return failure("" + RED + BOLD + "Error! " + RESET + GRAY + "引数のパース処理に失敗しました。" + errorMessage.get());
+                return failure(Constants.ERROR_MESSAGE_PREFIX + "引数のパース処理に失敗しました。" + errorMessage.get());
             }
         };
     }
