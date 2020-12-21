@@ -7,7 +7,6 @@ import amata1219.bryionake.dsl.context.ExecutionContext;
 import amata1219.bryionake.dsl.parser.FailableParser;
 import amata1219.bryionake.type.Pair;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
 import java.util.ArrayDeque;
@@ -16,7 +15,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.function.Supplier;
 
-public interface BryionakeCommandExecutor extends CommandExecutor {
+public interface CommandExecutor extends org.bukkit.command.CommandExecutor {
 
     @Override
     default boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -34,6 +33,10 @@ public interface BryionakeCommandExecutor extends CommandExecutor {
         return new BranchContext<>(argumentNotFoundErrorMessage, contexts);
     }
 
-    <S extends CommandSender> CommandContext<S> executor();
+    default <S extends CommandSender> Pair<String, CommandContext<S>> bind(String label, CommandContext<S> context) {
+        return new Pair<>(label, context);
+    }
+
+    CommandContext<? extends CommandSender> executor();
 
 }
