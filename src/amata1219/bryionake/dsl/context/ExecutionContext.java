@@ -1,9 +1,9 @@
 package amata1219.bryionake.dsl.context;
 
-import amata1219.bryionake.dsl.component.ParsedArgumentQueue;
+import amata1219.bryionake.dsl.argument.ParsedArgumentQueue;
 import amata1219.bryionake.dsl.parser.FailableParser;
-import amata1219.bryionake.type.Either;
-import amata1219.bryionake.type.Either.*;
+import amata1219.bryionake.adt.Either;
+import amata1219.bryionake.adt.Either.*;
 import org.bukkit.command.CommandSender;
 
 import java.util.ArrayList;

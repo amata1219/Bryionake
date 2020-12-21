@@ -1,11 +1,11 @@
 package amata1219.bryionake.dsl;
 
-import amata1219.bryionake.dsl.component.ParsedArgumentQueue;
+import amata1219.bryionake.dsl.argument.ParsedArgumentQueue;
 import amata1219.bryionake.dsl.context.BranchContext;
 import amata1219.bryionake.dsl.context.CommandContext;
 import amata1219.bryionake.dsl.context.ExecutionContext;
 import amata1219.bryionake.dsl.parser.FailableParser;
-import amata1219.bryionake.type.Pair;
+import amata1219.bryionake.adt.Pair;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 

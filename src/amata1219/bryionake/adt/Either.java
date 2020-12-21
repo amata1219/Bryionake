@@ -1,4 +1,4 @@
-package amata1219.bryionake.type;
+package amata1219.bryionake.adt;
 
 import java.util.function.Function;
 

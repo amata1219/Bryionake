@@ -1,4 +1,4 @@
-package amata1219.bryionake.dsl.component;
+package amata1219.bryionake.dsl.argument;
 
 import java.util.ArrayDeque;
 import java.util.Queue;

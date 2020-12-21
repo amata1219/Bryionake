@@ -1,6 +1,6 @@
 package amata1219.bryionake.dsl.parser;
 
-import amata1219.bryionake.type.Either;
+import amata1219.bryionake.adt.Either;
 
 import java.util.function.Function;
 
