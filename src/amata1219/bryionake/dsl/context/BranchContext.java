@@ -3,18 +3,18 @@ package amata1219.bryionake.dsl.context;
 import amata1219.bryionake.dsl.component.ParsedArgumentQueue;
 import org.bukkit.command.CommandSender;
 
-import java.util.Map;
+import java.util.HashMap;
 import java.util.Queue;
 import java.util.function.Supplier;
 
-public class BranchContext<S extends CommandSender> implements ExecutionContext<S> {
+public class BranchContext<S extends CommandSender> implements CommandContext<S> {
 
-    private final Map<String, ExecutionContext<S>> contexts;
     private final Supplier<String> argumentNotFoundErrorMessage;
+    private final HashMap<String, CommandContext<S>> contexts;
 
-    private BranchContext(Map<String, ExecutionContext<S>> contexts, Supplier<String> argumentNotFoundErrorMessage) {
-        this.contexts = contexts;
+    private BranchContext(Supplier<String> argumentNotFoundErrorMessage, HashMap<String, CommandContext<S>> contexts) {
         this.argumentNotFoundErrorMessage = argumentNotFoundErrorMessage;
+        this.contexts = contexts;
     }
 
     @Override

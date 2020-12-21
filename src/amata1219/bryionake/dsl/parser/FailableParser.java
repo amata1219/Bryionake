@@ -4,6 +4,6 @@ import amata1219.bryionake.type.Either;
 
 public interface FailableParser<T> {
 
-    Either<String, T> parse(String arg);
+    Either<String, T> tryParse(String arg);
 
 }

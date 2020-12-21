@@ -1,12 +1,47 @@
 package amata1219.bryionake.dsl.context;
 
 import amata1219.bryionake.dsl.component.ParsedArgumentQueue;
+import amata1219.bryionake.dsl.parser.FailableParser;
+import amata1219.bryionake.type.Either;
+import amata1219.bryionake.type.Either.*;
 import org.bukkit.command.CommandSender;
 
+import java.util.ArrayList;
 import java.util.Queue;
+import java.util.function.Supplier;
 
-public interface ExecutionContext<S extends CommandSender> {
+public class ExecutionContext<S extends CommandSender> implements CommandContext<S> {
 
-    void execute(S sender, Queue<String> unparsedArguments, ParsedArgumentQueue parsedArguments);
+    private final Supplier<String> argumentNotFoundErrorMessage;
+    private final ArrayList<FailableParser<?>> parsers;
+    private final CommandContext<S> context;
+
+    public ExecutionContext(Supplier<String> argumentNotFoundErrorMessage, ArrayList<FailableParser<?>> parsers, CommandContext<S> context) {
+        this.argumentNotFoundErrorMessage = argumentNotFoundErrorMessage;
+        this.parsers = parsers;
+        this.context = context;
+    }
+
+    @Override
+    public void execute(S sender, Queue<String> unparsedArguments, ParsedArgumentQueue parsedArguments) {
+        if (unparsedArguments.isEmpty()) {
+            sender.sendMessage(argumentNotFoundErrorMessage.get());
+            return;
+        }
+
+        for (FailableParser<?> parser : parsers) {
+            Either<String, ?> result = parser.tryParse(unparsedArguments.poll());
+            if (result instanceof Failure) {
+                String errorMessage = ((Failure<String, ?>) result).error;
+                sender.sendMessage(errorMessage);
+                return;
+            }
+
+            Object parsedArgument = ((Success<String, ?>) result).value;
+            parsedArguments.offer(parsedArgument);
+        }
+
+        context.execute(sender, unparsedArguments, parsedArguments);
+    }
 
 }
