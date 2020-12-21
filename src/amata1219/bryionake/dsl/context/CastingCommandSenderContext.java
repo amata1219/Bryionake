@@ -10,10 +10,10 @@ import java.util.Queue;
 
 public class CastingCommandSenderContext<S extends CommandSender, N extends S> implements CommandContext<S> {
 
-    private final SafeCaster<S, N> caster;
+    private final SafeCaster<S, N, String> caster;
     private final CommandContext<N> context;
 
-    public CastingCommandSenderContext(SafeCaster<S, N> caster, CommandContext<N> context) {
+    public CastingCommandSenderContext(SafeCaster<S, N, String> caster, CommandContext<N> context) {
         this.caster = caster;
         this.context = context;
     }

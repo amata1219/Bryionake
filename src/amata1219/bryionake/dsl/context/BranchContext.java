@@ -12,7 +12,7 @@ public class BranchContext<S extends CommandSender> implements CommandContext<S>
     private final Supplier<String> argumentNotFoundErrorMessage;
     private final HashMap<String, CommandContext<S>> contexts;
 
-    private BranchContext(Supplier<String> argumentNotFoundErrorMessage, HashMap<String, CommandContext<S>> contexts) {
+    public BranchContext(Supplier<String> argumentNotFoundErrorMessage, HashMap<String, CommandContext<S>> contexts) {
         this.argumentNotFoundErrorMessage = argumentNotFoundErrorMessage;
         this.contexts = contexts;
     }

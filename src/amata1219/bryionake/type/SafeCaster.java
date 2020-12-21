@@ -2,15 +2,15 @@ package amata1219.bryionake.type;
 
 import java.util.function.Supplier;
 
-public class SafeCaster<T, U extends T> {
+public class SafeCaster<T, U extends T, E> {
 
-    private final Supplier<String> castFailedErrorMessage;
+    private final Supplier<E> castFailedErrorMessage;
 
-    public SafeCaster(Supplier<String> castFailedErrorMessage) {
+    public SafeCaster(Supplier<E> castFailedErrorMessage) {
         this.castFailedErrorMessage = castFailedErrorMessage;
     }
 
-    public Either<String, U> tryCast(T value) {
+    public Either<E, U> tryCast(T value) {
         try {
             return Either.success((U) value);
         } catch (ClassCastException e) {
