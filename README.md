@@ -1,4 +1,4 @@
-####使用例
+### 使用例
 ```Java
 import org.bukkit.plugin.java.JavaPlugin;
 
