@@ -1,5 +1,6 @@
 package amata1219.bryionake.dsl;
 
+import amata1219.bryionake.constant.Constants;
 import amata1219.bryionake.dsl.argument.ParsedArgumentQueue;
 import amata1219.bryionake.dsl.caster.SafeCaster;
 import amata1219.bryionake.dsl.context.BranchContext;
@@ -27,13 +28,13 @@ public interface BukkitCommandExecutor extends CommandExecutor {
     }
 
     default <S extends CommandSender> ExecutionContext<S> define(Supplier<String> argumentNotFoundErrorMessage, CommandContext<S> context, FailableParser<?>... parsers) {
-        return new ExecutionContext<>(argumentNotFoundErrorMessage, (ArrayList<FailableParser<?>>) Arrays.asList(parsers), context);
+        return new ExecutionContext<>(() -> prefixErrorMessage(argumentNotFoundErrorMessage), (ArrayList<FailableParser<?>>) Arrays.asList(parsers), context);
     }
 
     default <S extends CommandSender> BranchContext<S> define(Supplier<String> argumentNotFoundErrorMessage, Pair<String, CommandContext<S>>... branches) {
         HashMap<String, CommandContext<S>> contexts = new HashMap<>();
         for (Pair<String, CommandContext<S>> branch : branches) contexts.put(branch.left, branch.right);
-        return new BranchContext<>(argumentNotFoundErrorMessage, contexts);
+        return new BranchContext<>(() -> prefixErrorMessage(argumentNotFoundErrorMessage), contexts);
     }
 
     default <S extends CommandSender> Pair<String, CommandContext<S>> bind(String label, CommandContext<S> context) {
@@ -42,6 +43,10 @@ public interface BukkitCommandExecutor extends CommandExecutor {
 
     default <S extends CommandSender, T extends S> CastingCommandSenderContext<S, T> define(SafeCaster<S, T, String> caster, CommandContext<T> context) {
         return new CastingCommandSenderContext<>(caster, context);
+    }
+
+    default String prefixErrorMessage(Supplier<String> errorMessage) {
+        return Constants.ERROR_MESSAGE_PREFIX + errorMessage.get();
     }
 
     CommandContext<CommandSender> executor();
