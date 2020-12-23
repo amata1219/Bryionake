@@ -1,6 +1,6 @@
 package amata1219.bryionake.interval;
 
-public class Interval<N extends Number & Comparable<Number>> {
+public class Interval<N extends Number & Comparable<N>> {
 
     private final Endpoint<N> lowerEndpoint, upperEndpoint;
 

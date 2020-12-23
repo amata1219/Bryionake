@@ -2,17 +2,25 @@ package amata1219.bryionake.interval;
 
 import java.util.function.Supplier;
 
-public class Endpoint<N extends Number & Comparable<Number>> {
+public class Endpoint<N extends Number & Comparable<N>> {
 
     private final boolean containsEqualElement;
     private final Supplier<N> boundaryValue;
 
-    public static <N extends Number & Comparable<Number>> Endpoint<N> openEndpoint(Supplier<N> boundaryValue) {
+    public static <N extends Number & Comparable<N>> Endpoint<N> openEndpoint(Supplier<N> boundaryValue) {
         return new Endpoint<>(false, boundaryValue);
     }
 
-    public static <N extends Number & Comparable<Number>> Endpoint<N> closedEndpoint(Supplier<N> boundaryValue) {
+    public static <N extends Number & Comparable<N>> Endpoint<N> openEndpoint(N boundaryValue) {
+        return openEndpoint((Supplier<N>) () -> boundaryValue);
+    }
+
+    public static <N extends Number & Comparable<N>> Endpoint<N> closedEndpoint(Supplier<N> boundaryValue) {
         return new Endpoint<>(true, boundaryValue);
+    }
+
+    public static <N extends Number & Comparable<N>> Endpoint<N> closedEndpoint(N boundaryValue) {
+        return closedEndpoint((Supplier<N>) () -> boundaryValue);
     }
 
     private Endpoint(boolean containsEqualElement, Supplier<N> boundaryValue) {
