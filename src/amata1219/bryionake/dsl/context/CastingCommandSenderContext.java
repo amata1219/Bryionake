@@ -8,26 +8,26 @@ import org.bukkit.command.CommandSender;
 
 import java.util.Queue;
 
-public class CastingCommandSenderContext<S extends CommandSender, N extends S> implements CommandContext<S> {
+public class CastingCommandSenderContext<S extends CommandSender, T extends S> implements CommandContext<S> {
 
-    private final SafeCaster<S, N, String> caster;
-    private final CommandContext<N> context;
+    private final SafeCaster<S, T, String> caster;
+    private final CommandContext<T> context;
 
-    public CastingCommandSenderContext(SafeCaster<S, N, String> caster, CommandContext<N> context) {
+    public CastingCommandSenderContext(SafeCaster<S, T, String> caster, CommandContext<T> context) {
         this.caster = caster;
         this.context = context;
     }
 
     @Override
     public void execute(S sender, Queue<String> unparsedArguments, ParsedArgumentQueue parsedArguments) {
-        Either<String, N> result = caster.tryCast(sender);
+        Either<String, T> result = caster.tryCast(sender);
         if (result instanceof Failure) {
-            String errorMessage = ((Failure<String, N>) result).error;
+            String errorMessage = ((Failure<String, T>) result).error;
             sender.sendMessage(errorMessage);
             return;
         }
 
-        N castedSender = ((Success<String, N>) sender).value;
+        T castedSender = ((Success<String, T>) sender).value;
         context.execute(castedSender, unparsedArguments, parsedArguments);
     }
 

@@ -1,12 +1,15 @@
 package amata1219.bryionake.dsl;
 
 import amata1219.bryionake.dsl.argument.ParsedArgumentQueue;
+import amata1219.bryionake.dsl.caster.SafeCaster;
 import amata1219.bryionake.dsl.context.BranchContext;
+import amata1219.bryionake.dsl.context.CastingCommandSenderContext;
 import amata1219.bryionake.dsl.context.CommandContext;
 import amata1219.bryionake.dsl.context.ExecutionContext;
 import amata1219.bryionake.dsl.parser.FailableParser;
 import amata1219.bryionake.adt.Pair;
 import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
 import java.util.ArrayDeque;
@@ -15,7 +18,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.function.Supplier;
 
-public interface CommandExecutor extends org.bukkit.command.CommandExecutor {
+public interface BukkitCommandExecutor extends CommandExecutor {
 
     @Override
     default boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -37,6 +40,10 @@ public interface CommandExecutor extends org.bukkit.command.CommandExecutor {
         return new Pair<>(label, context);
     }
 
-    CommandContext<? extends CommandSender> executor();
+    default <S extends CommandSender, T extends S> CastingCommandSenderContext<S, T> define(SafeCaster<S, T, String> caster, CommandContext<T> context) {
+        return new CastingCommandSenderContext<>(caster, context);
+    }
+
+    CommandContext<CommandSender> executor();
 
 }
