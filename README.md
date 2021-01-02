@@ -2,7 +2,7 @@
 ```Java
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class Bryionake extends JavaPlugin {
+public class Main extends JavaPlugin {
 
     @Override
     public void onEnable() {
